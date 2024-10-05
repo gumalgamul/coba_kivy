@@ -4,8 +4,8 @@ from kivy.uix.button import Button
 from kivy.app import App
 from kivy.core.window import Window
 from kivy.clock import Clock
-import random, time
-layar=Window.size
+import time
+import random
 
 
 Soal1 = {
@@ -546,135 +546,134 @@ Soal72 = {
         'pilihanGanda': ['a. Sirius', 'b. Proxima Centauri', 'c. Betelgeuse', 'd. Alpha Centauri'],
         'jawaban': 'b. Proxima Centauri'
     }
-
+layar=Window.size
 
 class Game(Widget):
-    def __init__(self,**kwargs):
-        super().__init__(**kwargs)
-        self.listSoal=[Soal1,Soal2,Soal3,Soal4,Soal5,Soal6,Soal7,Soal8,Soal9,Soal10,Soal11,Soal12,Soal13,Soal14,Soal15,Soal16,Soal17,Soal18,Soal19,Soal20,Soal21,Soal22,Soal23,Soal24,Soal25,Soal26,Soal27,Soal28,Soal29,Soal30,Soal31,Soal32,Soal33,Soal34,Soal35,Soal36,Soal37,Soal38,Soal39,Soal40,Soal41,Soal42,Soal43,Soal44,Soal45,Soal46,Soal47,Soal48,Soal49,Soal50,Soal51,Soal52,Soal53,Soal54,Soal55,Soal56,Soal57,Soal58,Soal59,Soal60,Soal61,Soal62,Soal63,Soal64,Soal65,Soal66,Soal67,Soal68,Soal69,Soal70,Soal71,Soal72,Soal73,Soal74,Soal75,Soal76,Soal77,Soal78,Soal79,Soal80,Soal81,Soal82,Soal83,Soal84,Soal85,Soal86,Soal87,Soal88,Soal89,Soal90,Soal91,Soal92,Soal93,Soal94]
-        self.SoalTerpilih=[]
-        self.SoalPilihan=''
-        self.soalKe=0
-        self.jumlahSoal=10
-        self.jawabanBenar=''
-        self.jawaban=''
-        self.result=''
-        self.teks=''
-        self.skor=0
-        self.intro='TES IQ GAME\n\nby: gumalgamul\n\n\nyoutu.be/@gumalgamul\nfb.com/gumalgamul\n\n\nsilahkan mencoba'
-        self.label=Label(text=self.teks, size=(layar[0],layar[1]/2),pos=(1,layar[1]/2), text_size=(layar[0],None),halign='center')
-        self.add_widget(self.label)
-        self.ButtonA=Button(text='A', pos=(layar[0]/3,layar[1]-400),halign='center', size=(50,50))
-        self.ButtonB=Button(text='B', pos=(layar[0]/3+(100),layar[1]-400),halign='center', size=(50,50))
-        self.ButtonC=Button(text='C', pos=(layar[0]/3+(200),layar[1]-400),halign='center', size=(50,50))
-        self.ButtonD=Button(text='D', pos=(layar[0]/3+(300),layar[1]-400),halign='center', size=(50,50))
-        self.ButtonYes=Button(text='YES', pos=(layar[0]/3,layar[1]-400),halign='center', size=(50,50))
-        self.ButtonNo=Button(text='NO', pos=(layar[0]/3+(400),layar[1]-400),halign='center', size=(50,50))
-        Clock.schedule_once(self.IntroGame,0.5)
-    def ResetGame(self):
-        self.SoalPilihan=''
-        self.soalKe=0
-        self.jumlahSoal=10
-        self.jawabanBenar=''
-        self.jawaban=''
-        self.result=''
-        self.teks=''
-        self.skor=0
-        self.label=Label(text=self.teks, size=(layar[0],layar[1]/2),pos=(1,layar[1]/2), text_size=(layar[0],None),halign='center')
-        self.add_widget(self.label)
-        self.ButtonA=Button(text='A', pos=(layar[0]/3,layar[1]-400),halign='center', size=(50,50))
-        self.add_widget(self.ButtonA)
-        self.ButtonB=Button(text='B', pos=(layar[0]/3+(100),layar[1]-400),halign='center', size=(50,50))
-        self.add_widget(self.ButtonB)
-        self.ButtonC=Button(text='C', pos=(layar[0]/3+(200),layar[1]-400),halign='center', size=(50,50))
-        self.add_widget(self.ButtonC)
-        self.ButtonD=Button(text='D', pos=(layar[0]/3+(300),layar[1]-400),halign='center', size=(50,50))
-        self.add_widget(self.ButtonD)
-        self.ButtonYes=Button(text='YES', pos=(layar[0]/3,layar[1]-400),halign='center', size=(50,50))
-        self.ButtonNo=Button(text='NO', pos=(layar[0]/3+(400),layar[1]-400),halign='center', size=(50,50))
-    def ConfirmPlay(self):
-        self.add_widget(self.ButtonYes)
-        self.add_widget(self.ButtonNo)
-        self.ButtonYes.bind(on_press=self.PlayAgain)
-        self.ButtonNo.bind(on_press=self.NotPlayAgain)
-    def PlayAgain(self,instance):
-        self.remove_widget(self.ButtonYes)
-        self.remove_widget(self.ButtonNo)
-        self.teks=''
-        self.label.text=self.teks
-        self.ResetGame()
-        Clock.schedule_once(self.GameStart,0.5)
-    def NotPlayAgain(self,instance):
-        self.remove_widget(self.ButtonYes)
-        self.remove_widget(self.ButtonNo)
-        self.ResetGame()
-        App.get_running_app().stop()
-    def IntroGame(self,dt):
-        self.label.text=self.intro
-        Clock.schedule_once(self.GameStart,5)
-    def GameStart(self,dt):
-        Clock.unschedule(self.IntroGame)
-        if self.ButtonA not in self.children and self.ButtonB not in self.children  and self.ButtonC not in self.children and self.ButtonD not in self.children:
-            self.add_widget(self.ButtonA)
-            self.add_widget(self.ButtonB)
-            self.add_widget(self.ButtonC)
-            self.add_widget(self.ButtonD)
-        else:pass
-        if self.soalKe<self.jumlahSoal:
-            self.GenerateSoal()
-        else:
-            self.GameEnd()
-    def GameEnd(self):
-        self.teks=f" nilai anda {self.skor} \n\n\nanda ingin bermain lagi?"
-        self.label.text=self.teks
-        self.remove_widget(self.ButtonA)
-        self.remove_widget(self.ButtonB)
-        self.remove_widget(self.ButtonC)
-        self.remove_widget(self.ButtonD)
-        self.ConfirmPlay()
-    def GenerateSoal(self):
-        self.soalKe+=1
-        self.SoalPilihan=random.choice(self.listSoal)
-        if self.SoalPilihan in self.SoalTerpilih:self.SoalPilihan=random.choice(self.listSoal)
-        else:self.SoalTerpilih.append(self.SoalPilihan)
-        self.jawabanBenar=self.SoalPilihan['jawaban']
-        self.teks= f" soal ke {self.soalKe} dari {self.jumlahSoal} \n\n {self.SoalPilihan['pertanyaan']} \n\n "+'\n'.join(self.SoalPilihan['pilihanGanda'])
-        self.label.text=self.teks
-        self.ButtonA.bind(on_press=self.InputJawabanA)
-        self.ButtonB.bind(on_press=self.InputJawabanB)
-        self.ButtonC.bind(on_press=self.InputJawabanC)
-        self.ButtonD.bind(on_press=self.InputJawabanD)
-    def InputJawabanA(self,instance):
-        self.jawaban=self.SoalPilihan['pilihanGanda'][0]
-        self.CekJawaban()
-    def InputJawabanB(self,instance):
-        self.jawaban=self.SoalPilihan['pilihanGanda'][1]
-        self.CekJawaban()
-    def InputJawabanC(self,instance):
-        self.jawaban=self.SoalPilihan['pilihanGanda'][2]
-        self.CekJawaban()
-    def InputJawabanD(self,instance):
-        self.jawaban=self.SoalPilihan['pilihanGanda'][3]
-        self.CekJawaban()
-    def CekJawaban(self):
-            t=self.makeTimer()
-            Clock.unschedule(self.GameStart)
-            if self.jawaban == self.jawabanBenar:
-                self.result=f"BENAR\n\n jawaban soal \n\n '{ self.SoalPilihan['pertanyaan']}' adalah \n\n {self.jawaban} \n\n load soal in {t} "
-                self.skor+=10
-            else:
-                self.result=f"SALAH\n\n jawaban soal \n\n '{ self.SoalPilihan['pertanyaan']}' adalah \n\n {self.jawabanBenar} \n\n load soal in"
-                self.skor+=0
-            self.label.text=self.result
-            Clock.schedule_once(self.GameStart,4)
-    def makeTimer(self):
-            t=time.time()
-            return t
-            
+	def __init__(self,**kwargs):
+		super().__init__(**kwargs)
+		self.listSoal=[Soal1,Soal2,Soal3,Soal4,Soal5,Soal6,Soal7,Soal8,Soal9,Soal10,Soal11,Soal12,Soal13,Soal14,Soal15,Soal16,Soal17,Soal18,Soal19,Soal20,Soal21,Soal22,Soal23,Soal24,Soal25,Soal26,Soal27,Soal28,Soal29,Soal30,Soal31,Soal32,Soal33,Soal34,Soal35,Soal36,Soal37,Soal38,Soal39,Soal40,Soal41,Soal42,Soal43,Soal44,Soal45,Soal46,Soal47,Soal48,Soal49,Soal50,Soal51,Soal52,Soal53,Soal54,Soal55,Soal56,Soal57,Soal58,Soal59,Soal60,Soal61,Soal62,Soal63,Soal64,Soal65,Soal66,Soal67,Soal68,Soal69,Soal70,Soal71,Soal72,Soal73,Soal74,Soal75,Soal76,Soal77,Soal78,Soal79,Soal80,Soal81,Soal82,Soal83,Soal84,Soal85,Soal86,Soal87,Soal88,Soal89,Soal90,Soal91,Soal92,Soal93,Soal94]
+		self.SoalPilihan=''
+		self.SoalTerpilih=[]
+		self.soalKe=0
+		self.jumlahSoal=10
+		self.jawabanBenar=''
+		self.jawaban=''
+		self.result=''
+		self.teks=''
+		self.skor=0
+		self.intro='TES IQ GAME\n\nby: gumalgamul\n\n\nyoutu.be/@gumalgamul\nfb.com/gumalgamul\n\n\nsilahkan mencoba'
+		self.label=Label(text=self.teks, size=(layar[0],layar[1]/2),pos=(1,layar[1]/2), text_size=(layar[0],None),halign='center')
+		self.add_widget(self.label)
+		self.ButtonA=Button(text='A', pos=(layar[0]/3,400),halign='center', size=(50,50))
+		self.ButtonB=Button(text='B', pos=(layar[0]/3+(100),400),halign='center', size=(50,50))
+		self.ButtonC=Button(text='C', pos=(layar[0]/3+(200),400),halign='center', size=(50,50))
+		self.ButtonD=Button(text='D', pos=(layar[0]/3+(300),400),halign='center', size=(50,50))
+		self.ButtonYes=Button(text='YES', pos=(layar[0]/3,400),halign='center', size=(50,50))
+		self.ButtonNo=Button(text='NO', pos=(layar[0]/3+(400),400),halign='center', size=(50,50))
+		Clock.schedule_once(self.IntroGame,0.5)
+	def ResetGame(self):
+		self.SoalPilihan=''
+		self.SoalTerpilih=[]
+		self.soalKe=0
+		self.jumlahSoal=10
+		self.jawabanBenar=''
+		self.jawaban=''
+		self.result=''
+		self.teks=''
+		self.skor=0
+		self.label=Label(text=self.teks, size=(layar[0],layar[1]/2),pos=(1,layar[1]/2), text_size=(layar[0],None),halign='center')
+		self.add_widget(self.label)
+		self.ButtonA=Button(text='A', pos=(layar[0]/3,400),halign='center', size=(50,50))
+		self.add_widget(self.ButtonA)
+		self.ButtonB=Button(text='B', pos=(layar[0]/3+(100),400),halign='center', size=(50,50))
+		self.add_widget(self.ButtonB)
+		self.ButtonC=Button(text='C', pos=(layar[0]/3+(200),400),halign='center', size=(50,50))
+		self.add_widget(self.ButtonC)
+		self.ButtonD=Button(text='D', pos=(layar[0]/3+(300),400),halign='center', size=(50,50))
+		self.add_widget(self.ButtonD)
+		self.ButtonYes=Button(text='YES', pos=(layar[0]/3,400),halign='center', size=(50,50))
+		self.ButtonNo=Button(text='NO', pos=(layar[0]/3+(400),400),halign='center', size=(50,50))
+	def ConfirmPlay(self):
+		self.add_widget(self.ButtonYes)
+		self.add_widget(self.ButtonNo)
+		self.ButtonYes.bind(on_press=self.PlayAgain)
+		self.ButtonNo.bind(on_press=self.NotPlayAgain)
+	def PlayAgain(self,instance):
+		self.remove_widget(self.ButtonYes)
+		self.remove_widget(self.ButtonNo)
+		self.teks=''
+		self.label.text=self.teks
+		self.ResetGame()
+		Clock.schedule_once(self.GameStart,0.5)
+	def NotPlayAgain(self,instance):
+		self.remove_widget(self.ButtonYes)
+		self.remove_widget(self.ButtonNo)
+		self.ResetGame()
+		App.get_running_app().stop()
+	def IntroGame(self,dt):
+		self.label.text=self.intro
+		Clock.schedule_once(self.GameStart,5)
+	def GameStart(self,dt):
+		Clock.unschedule(self.IntroGame)
+		if self.ButtonA not in self.children and self.ButtonB not in self.children  and self.ButtonC not in self.children and self.ButtonD not in self.children:
+			self.add_widget(self.ButtonA)
+			self.add_widget(self.ButtonB)
+			self.add_widget(self.ButtonC)
+			self.add_widget(self.ButtonD)
+		else:pass
+		if self.soalKe<self.jumlahSoal:
+			self.GenerateSoal()
+		else:
+			self.GameEnd()
+	def GameEnd(self):
+		self.teks=f" nilai anda {self.skor} \n\n\nanda ingin bermain lagi?"
+		self.label.text=self.teks
+		self.remove_widget(self.ButtonA)
+		self.remove_widget(self.ButtonB)
+		self.remove_widget(self.ButtonC)
+		self.remove_widget(self.ButtonD)
+		self.ConfirmPlay()
+	def GenerateSoal(self):
+		self.soalKe+=1
+		self.SoalPilihan=random.choice(self.listSoal)
+		if self.SoalPilihan['pertanyaan'] in self.SoalTerpilih:
+			self.SoalPilihan=random.choice(self.listSoal)
+		else:
+			self.SoalTerpilih.append(self.SoalPilihan['pertanyaan'])
+		self.jawabanBenar=self.SoalPilihan['jawaban']
+		self.teks= f" soal ke {self.soalKe} dari {self.jumlahSoal} \n\n {self.SoalPilihan['pertanyaan']} \n\n "+'\n'.join(self.SoalPilihan['pilihanGanda'])
+		self.label.text=self.teks
+		self.ButtonA.bind(on_press=self.InputJawabanA)
+		self.ButtonB.bind(on_press=self.InputJawabanB)
+		self.ButtonC.bind(on_press=self.InputJawabanC)
+		self.ButtonD.bind(on_press=self.InputJawabanD)
+	def InputJawabanA(self,instance):
+		self.jawaban=self.SoalPilihan['pilihanGanda'][0]
+		self.CekJawaban()
+	def InputJawabanB(self,instance):
+		self.jawaban=self.SoalPilihan['pilihanGanda'][1]
+		self.CekJawaban()
+	def InputJawabanC(self,instance):
+		self.jawaban=self.SoalPilihan['pilihanGanda'][2]
+		self.CekJawaban()
+	def InputJawabanD(self,instance):
+		self.jawaban=self.SoalPilihan['pilihanGanda'][3]
+		self.CekJawaban()
+	def CekJawaban(self):
+		Clock.unschedule(self.GameStart)
+		if self.jawaban == self.jawabanBenar:
+			self.result=f"BENAR\n\n jawaban soal '{ self.SoalPilihan['pertanyaan']}' adalah \n\n {self.jawaban} "
+			self.skor+=10
+		else:
+			self.result=f"SALAH\n\n jawaban soal '{ self.SoalPilihan['pertanyaan']}' adalah \n\n {self.jawabanBenar} "
+			self.skor+=0
+		self.label.text=self.result
+		Clock.schedule_once(self.GameStart,4)
+			
 class MyApp(App):
-    def build(self):
-        self.Game=Game()
-        return self.Game
+	def build(self):
+		self.Game=Game()
+		return self.Game
 
 MyApp().run()
-        
+		
