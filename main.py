@@ -5,7 +5,7 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.clock import Clock
 import time
-import random 
+import random
 
 
 Soal1 = {
